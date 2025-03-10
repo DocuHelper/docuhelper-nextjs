@@ -22,7 +22,14 @@ const GET_FILE_UPLOAD_URL = gql`
             }
         `
 
-export default function () {
+function defaultUploadOnComplete(fileUuid) {
+    console.log("fileUploadComplet!!")
+    console.log("fileUUID: ", fileUuid)
+}
+
+export default function ({
+                             uploadOnComplete = defaultUploadOnComplete
+                         }) {
     const fileInput = useRef(null)
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -40,7 +47,7 @@ export default function () {
 
 
     return <>
-        <div {...getRootProps()} className="border p-4 text-center m-8 border-dashed rounded-md"
+        <div {...getRootProps()} className="border p-4 text-center border-dashed rounded-md"
              onClick={() => {
                  fileInput.current.click()
              }}
@@ -73,17 +80,15 @@ export default function () {
                         },
                     });
 
-                    console.log("파일 UUID:", uuid);
-                    console.log("업로드 URL:", url);
-
                     // PUT 요청으로 파일 바이너리 데이터 업로드
-                    const putResponse = await fetch(url, {
+                    await fetch(url, {
                         method: "PUT",
                         headers: {
                             "Content-Type": file.type,
                         },
                         body: file,
                     });
+                    uploadOnComplete(uuid)
                 }}
             />
         </div>
