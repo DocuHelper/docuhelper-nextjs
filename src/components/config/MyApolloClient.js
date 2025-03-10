@@ -2,6 +2,7 @@
 import {ApolloClient, InMemoryCache} from "@apollo/client";
 
 export const client = new ApolloClient({
-    uri: 'http://localhost:8080/graphql',
+    uri: 'https://docuhelper-api.bmserver.org/graphql',
     cache: new InMemoryCache(),
+    credentials: 'include',
 });
