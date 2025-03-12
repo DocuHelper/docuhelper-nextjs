@@ -24,7 +24,12 @@ export default function useLoginStateHook() {
 
     // 컴포넌트 마운트 시 Jwt 쿠키 정보 로드
     useEffect(() => {
-        setJwt(getJwtByCookie())
+        const jwt = getJwtByCookie()
+        if (!jwt) {
+            setLoginUser(null)
+            return;
+        }
+        setJwt(jwt)
     }, []);
 
     // 쿠키기반 인증정보 조회
@@ -36,11 +41,10 @@ export default function useLoginStateHook() {
             .then(({data: {loginState}}) => {
                 // 로그인 정보 x -> Jwt 쿠키 파기 및 새로고침
                 if (!loginState) {
-                    logoutEv()
+                    logout()
                 }
                 setLoginUser(loginState)
             })
-
 
     }, [jwt]);
 
