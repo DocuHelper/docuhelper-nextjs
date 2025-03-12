@@ -29,8 +29,6 @@ export default function CreateDocument() {
 
     const [name, setName] = useState("테스트 문서")
     const [file, setFile] = useState("")
-    const [owner, setOwner] = useState("0b98b024-5797-4a1e-a454-21ced7b4407c")
-    const [state, setState] = useState("READING")
 
     const createDocumentBtnEv = () => {
         mutateFunction({
@@ -56,9 +54,9 @@ export default function CreateDocument() {
 
             <FileUploader uploadOnComplete={fileUuid => {
                 setFile(fileUuid)
-            }} />
+            }}/>
             <button
-                    onClick={createDocumentBtnEv}
+                onClick={createDocumentBtnEv}
             >
                 CreteDocument
             </button>
