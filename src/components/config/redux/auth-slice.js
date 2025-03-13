@@ -8,12 +8,12 @@ const auth = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        initLogin: (state, {payload}) => {
+        initAuthStore: (state, {payload}) => {
             state.user = payload
             return state
         }
     },
 });
 
-export const {initLogin} = auth.actions
+export const {initAuthStore} = auth.actions
 export default auth.reducer

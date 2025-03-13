@@ -46,7 +46,7 @@ export default function useLoginStateHook() {
                 setLoginUser(loginState)
             })
 
-    }, [jwt]);
+    }, [jwt, getLoginUser]);
 
     return {loginUser, logout};
 }
