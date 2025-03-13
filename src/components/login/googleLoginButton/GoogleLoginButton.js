@@ -1,6 +1,6 @@
 import css from "./googleLogin.css"
 
-export default function () {
+export default function GoogleLoginButton() {
 
     return <a href={"/oauth2/authorization/google"}>
         <button className="gsi-material-button">

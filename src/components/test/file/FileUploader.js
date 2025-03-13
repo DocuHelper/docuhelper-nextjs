@@ -1,6 +1,6 @@
 "use client"
 import {useCallback, useRef} from "react";
-import {ApolloClient, gql, InMemoryCache, useMutation} from "@apollo/client";
+import {gql, useMutation} from "@apollo/client";
 import {useDropzone} from "react-dropzone";
 
 const GET_FILE_UPLOAD_URL = gql`
@@ -27,9 +27,9 @@ function defaultUploadOnComplete(fileUuid) {
     console.log("fileUUID: ", fileUuid)
 }
 
-export default function ({
-                             uploadOnComplete = defaultUploadOnComplete
-                         }) {
+export default function FileUploader({
+                                         uploadOnComplete = defaultUploadOnComplete
+                                     }) {
     const fileInput = useRef(null)
 
     const onDrop = useCallback((acceptedFiles) => {
