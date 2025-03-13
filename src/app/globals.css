@@ -17,20 +17,6 @@
   }
 }
 
-input {
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 2px;
-}
-
-button {
-  /*border: 1px solid black;*/
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: cornflowerblue;
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
