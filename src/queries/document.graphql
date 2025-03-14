@@ -1,0 +1,9 @@
+mutation CreateDocument($request: CreateDocumentRequestInput!) {
+    createDocument(request: $request) {
+        uuid
+        name
+        state
+        owner
+        file
+    }
+}

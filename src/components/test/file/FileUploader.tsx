@@ -1,27 +1,7 @@
 "use client"
-import {RefObject, useCallback, useRef} from "react";
-import {gql, useMutation} from "@apollo/client";
-import {DropEvent, FileRejection, useDropzone} from "react-dropzone";
-import {FileUploadUrl} from "@/type/response";
-
-const GET_FILE_UPLOAD_URL = gql`
-            mutation UploadFileUrl(
-                $extension: String!,
-                $name: String!,
-                $size: Long!
-            ) {
-                uploadFileUrl(
-                    fileInfo: { 
-                            extension: $extension,
-                            name: $name,
-                            size: $size 
-                    }
-                ) {
-                    url
-                    uuid
-                }
-            }
-        `
+import {useRef} from "react";
+import {useDropzone} from "react-dropzone";
+import {useUploadFileUrlMutation} from "@/generated/graphql";
 
 function defaultUploadOnComplete(fileUuid: string) {
     console.log("fileUploadComplet!!")
@@ -32,6 +12,7 @@ export default function FileUploader({uploadOnComplete = defaultUploadOnComplete
     uploadOnComplete?: ((fileUuid: string) => void)
 }) {
     const fileInput = useRef<HTMLInputElement | null>(null);
+    const [mutateFunction, {data, loading, error}] = useUploadFileUrlMutation()
     const onDrop = async (acceptedFiles: File[]) => {
         // const file = event.target?.files[0];
         const file = acceptedFiles[0] as File
@@ -43,17 +24,21 @@ export default function FileUploader({uploadOnComplete = defaultUploadOnComplete
         const fileSize = file.size;
 
         // 파일 정보를 기반으로 업로드 URL 요청
-        const {
-            data: {
-                uploadFileUrl: {url, uuid},
-            },
-        } = await mutateFunction({
+        const result = await mutateFunction({
             variables: {
-                extension: fileExtension,
-                name: fileName,
-                size: fileSize,
-            },
+                fileInfo: {
+                    extension: fileExtension,
+                    name: fileName,
+                    size: fileSize,
+                }
+            }
         });
+
+        const uploadFileUrl = result.data?.uploadFileUrl
+
+        if (uploadFileUrl === undefined) return;
+
+        const {url, uuid} = uploadFileUrl
 
         // PUT 요청으로 파일 바이너리 데이터 업로드
         await fetch(url, {
@@ -65,11 +50,7 @@ export default function FileUploader({uploadOnComplete = defaultUploadOnComplete
         });
         uploadOnComplete(uuid)
     };
-
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
-
-
-    const [mutateFunction, {data, loading, error}] = useMutation<{ uploadFileUrl: FileUploadUrl }>(GET_FILE_UPLOAD_URL);
 
     if (loading) {
         return <h1>Loading...</h1>

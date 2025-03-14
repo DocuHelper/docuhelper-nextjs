@@ -1,0 +1,6 @@
+mutation UploadFileUrl($fileInfo: CreateUploadUrlRequestInput!) {
+    uploadFileUrl(fileInfo: $fileInfo) {
+        url
+        uuid
+    }
+}

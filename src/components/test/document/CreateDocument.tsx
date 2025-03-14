@@ -2,30 +2,12 @@
 import {ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation} from '@apollo/client';
 import {useState} from "react";
 import FileUploader from "@/components/test/file/FileUploader";
+import {useCreateDocumentMutation} from "@/generated/graphql";
 
-const CREATE_DOCUMENT = gql`
-mutation CreateDocument(
-    $file: UUID!,
-    $name: String!,
-) {
-    createDocument(
-        request: { 
-            file: $file, 
-            name: $name, 
-        }
-    ) {
-        file
-        name
-        owner
-        state
-        uuid
-    }
-}
-`
 
 export default function CreateDocument() {
 
-    const [mutateFunction, {data, loading, error}] = useMutation(CREATE_DOCUMENT)
+    const [mutateFunction, {data, loading, error}] = useCreateDocumentMutation()
 
     const [name, setName] = useState("테스트 문서")
     const [file, setFile] = useState("")
@@ -33,7 +15,9 @@ export default function CreateDocument() {
     const createDocumentBtnEv = () => {
         mutateFunction({
             variables: {
-                name, file
+                request: {
+                    name, file
+                }
             }
         })
     }

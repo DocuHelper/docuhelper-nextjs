@@ -1,0 +1,8 @@
+schema: "https://docuhelper.bmserver.org/graphql"
+documents: "src/queries/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
