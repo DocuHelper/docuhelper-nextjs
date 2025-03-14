@@ -1,0 +1,2 @@
+schema: https://docuhelper.bmserver.org/graphql
+documents: '**/*.graphql'
