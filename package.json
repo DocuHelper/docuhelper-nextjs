@@ -16,6 +16,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
+    "react-google-button": "^0.8.0",
     "react-redux": "^9.2.0",
     "tailwind-scrollbar-hide": "^2.0.0"
   },
