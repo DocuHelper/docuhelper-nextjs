@@ -7,6 +7,6 @@ export default function UserProfile() {
 
     return <div className="h-full flex p-4 items-center gap-4">
         <div className="h-full aspect-square rounded-full bg-white"></div>
-        <p>{authUser.email}</p>
+        <p>{authUser?.email}</p>
     </div>
 }

@@ -17,8 +17,8 @@ query LoginState {
  * @returns {{ loginUser: { email: string, uuid: string } | undefined | null, logout: () => void }}
  * */
 export default function useLoginStateHook() {
-    const [jwt, setJwt] = useState(undefined);
-    const [loginUser, setLoginUser] = useState(undefined);
+    const [jwt, setJwt] = useState<string | undefined>(undefined);
+    const [loginUser, setLoginUser] = useState<{email:string, uuid:string} | undefined | null>(undefined);
 
     const [getLoginUser, {loading, error, data}] = useLazyQuery(GET_LOGIN_USER_INFO)
 

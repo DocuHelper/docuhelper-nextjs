@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 
 export default function useLongTimeTestHook(loadMsTime = 1000) {
-    const [otherState, setOtherState] = useState(undefined);
+    const [otherState, setOtherState] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
         setTimeout(() => {

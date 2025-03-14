@@ -1,7 +1,9 @@
 import DocumentListSideBar from "@/components/dashboard/DocumentListSideBar";
 import UserProfile from "@/components/dashboard/UserProfile";
 
-export default function layout({children}) {
+export default function layout({children}:{
+    children:React.ReactNode
+}) {
 
     return <div className="flex w-full flex-grow">
         {/* left sidebar */}

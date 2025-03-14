@@ -13,7 +13,9 @@ import useLongTimeTestHook from "@/customHook/useLongTimeTestHook";
  * @returns {JSX.Element}
  * @constructor
  */
-export default function StoreStateProvider({children}) {
+export default function StoreStateProvider({children}: {
+    children: React.ReactNode
+}) {
     const dispatch = useAppDispatch()
     const {loginUser} = useLoginStateHook()
     const {otherState} = useLongTimeTestHook(1000)
