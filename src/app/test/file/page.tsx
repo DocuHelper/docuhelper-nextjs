@@ -1,5 +1,5 @@
-import FileUploader from "@/components/test/file/FileUploader";
+import FileUploader from '@/components/test/file/FileUploader';
 
 export default function Page() {
-    return <FileUploader />
+	return <FileUploader />;
 }

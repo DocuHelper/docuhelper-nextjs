@@ -1,8 +1,9 @@
-import Dashboard from "@/components/dashboard/Dashboard";
-import Link from "next/link";
+import Dashboard from '@/components/dashboard/Dashboard';
 
 export default function Page() {
-    return <>
-        <Dashboard/>
-    </>
+	return (
+		<>
+			<Dashboard />
+		</>
+	);
 }

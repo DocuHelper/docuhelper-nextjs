@@ -1,5 +1,6 @@
-import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+import { gql } from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -10,126 +11,132 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  Long: { input: any; output: any; }
-  URL: { input: any; output: any; }
-  UUID: { input: any; output: any; }
+	ID: { input: string; output: string };
+	String: { input: string; output: string };
+	Boolean: { input: boolean; output: boolean };
+	Int: { input: number; output: number };
+	Float: { input: number; output: number };
+	Long: { input: any; output: any };
+	URL: { input: any; output: any };
+	UUID: { input: any; output: any };
 };
 
 export type BaseDomain = {
-  uuid?: Maybe<Scalars['UUID']['output']>;
+	uuid?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type CreateDocumentRequestInput = {
-  file: Scalars['UUID']['input'];
-  name: Scalars['String']['input'];
+	file: Scalars['UUID']['input'];
+	name: Scalars['String']['input'];
 };
 
 export type CreateUploadUrlRequestInput = {
-  extension: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  size: Scalars['Long']['input'];
+	extension: Scalars['String']['input'];
+	name: Scalars['String']['input'];
+	size: Scalars['Long']['input'];
 };
 
 export type Document = BaseDomain & {
-  __typename?: 'Document';
-  file: Scalars['UUID']['output'];
-  name: Scalars['String']['output'];
-  owner: Scalars['UUID']['output'];
-  state: DocumentState;
-  uuid?: Maybe<Scalars['UUID']['output']>;
+	__typename?: 'Document';
+	file: Scalars['UUID']['output'];
+	name: Scalars['String']['output'];
+	owner: Scalars['UUID']['output'];
+	state: DocumentState;
+	uuid?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type DocumentQueryRequestInput = {
-  name?: InputMaybe<Scalars['String']['input']>;
-  owner?: InputMaybe<Scalars['UUID']['input']>;
-  state?: InputMaybe<DocumentState>;
-  uuid?: InputMaybe<Scalars['UUID']['input']>;
+	name?: InputMaybe<Scalars['String']['input']>;
+	owner?: InputMaybe<Scalars['UUID']['input']>;
+	state?: InputMaybe<DocumentState>;
+	uuid?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 export enum DocumentState {
-  Complate = 'COMPLATE',
-  Embedding = 'EMBEDDING',
-  Parsing = 'PARSING',
-  Reading = 'READING'
+	Complate = 'COMPLATE',
+	Embedding = 'EMBEDDING',
+	Parsing = 'PARSING',
+	Reading = 'READING',
 }
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  createDocument: Document;
-  testMutation: Scalars['String']['output'];
-  uploadFileUrl: UploadUrl;
+	__typename?: 'Mutation';
+	createDocument: Document;
+	testMutation: Scalars['String']['output'];
+	uploadFileUrl: UploadUrl;
 };
-
 
 export type MutationCreateDocumentArgs = {
-  request: CreateDocumentRequestInput;
+	request: CreateDocumentRequestInput;
 };
-
 
 export type MutationTestMutationArgs = {
-  test: Scalars['String']['input'];
+	test: Scalars['String']['input'];
 };
 
-
 export type MutationUploadFileUrlArgs = {
-  fileInfo: CreateUploadUrlRequestInput;
+	fileInfo: CreateUploadUrlRequestInput;
 };
 
 export type Query = {
-  __typename?: 'Query';
-  findDocument: Array<Document>;
-  loginState?: Maybe<User>;
-  testQuery: Scalars['String']['output'];
+	__typename?: 'Query';
+	findDocument: Array<Document>;
+	loginState?: Maybe<User>;
+	testQuery: Scalars['String']['output'];
 };
 
-
 export type QueryFindDocumentArgs = {
-  query: DocumentQueryRequestInput;
+	query: DocumentQueryRequestInput;
 };
 
 export type UploadUrl = {
-  __typename?: 'UploadUrl';
-  url: Scalars['URL']['output'];
-  uuid: Scalars['UUID']['output'];
+	__typename?: 'UploadUrl';
+	url: Scalars['URL']['output'];
+	uuid: Scalars['UUID']['output'];
 };
 
 export type User = {
-  __typename?: 'User';
-  email: Scalars['String']['output'];
-  uuid: Scalars['UUID']['output'];
+	__typename?: 'User';
+	email: Scalars['String']['output'];
+	uuid: Scalars['UUID']['output'];
 };
 
 export type CreateDocumentMutationVariables = Exact<{
-  request: CreateDocumentRequestInput;
+	request: CreateDocumentRequestInput;
 }>;
 
-
-export type CreateDocumentMutation = { __typename?: 'Mutation', createDocument: { __typename?: 'Document', uuid?: any | null, name: string, state: DocumentState, owner: any, file: any } };
+export type CreateDocumentMutation = {
+	__typename?: 'Mutation';
+	createDocument: {
+		__typename?: 'Document';
+		uuid?: any | null;
+		name: string;
+		state: DocumentState;
+		owner: any;
+		file: any;
+	};
+};
 
 export type UploadFileUrlMutationVariables = Exact<{
-  fileInfo: CreateUploadUrlRequestInput;
+	fileInfo: CreateUploadUrlRequestInput;
 }>;
 
-
-export type UploadFileUrlMutation = { __typename?: 'Mutation', uploadFileUrl: { __typename?: 'UploadUrl', url: any, uuid: any } };
-
+export type UploadFileUrlMutation = {
+	__typename?: 'Mutation';
+	uploadFileUrl: { __typename?: 'UploadUrl'; url: any; uuid: any };
+};
 
 export const CreateDocumentDocument = gql`
-    mutation CreateDocument($request: CreateDocumentRequestInput!) {
-  createDocument(request: $request) {
-    uuid
-    name
-    state
-    owner
-    file
-  }
-}
-    `;
+	mutation CreateDocument($request: CreateDocumentRequestInput!) {
+		createDocument(request: $request) {
+			uuid
+			name
+			state
+			owner
+			file
+		}
+	}
+`;
 export type CreateDocumentMutationFn = Apollo.MutationFunction<CreateDocumentMutation, CreateDocumentMutationVariables>;
 
 /**
@@ -149,21 +156,26 @@ export type CreateDocumentMutationFn = Apollo.MutationFunction<CreateDocumentMut
  *   },
  * });
  */
-export function useCreateDocumentMutation(baseOptions?: Apollo.MutationHookOptions<CreateDocumentMutation, CreateDocumentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateDocumentMutation, CreateDocumentMutationVariables>(CreateDocumentDocument, options);
-      }
+export function useCreateDocumentMutation(
+	baseOptions?: Apollo.MutationHookOptions<CreateDocumentMutation, CreateDocumentMutationVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<CreateDocumentMutation, CreateDocumentMutationVariables>(CreateDocumentDocument, options);
+}
 export type CreateDocumentMutationHookResult = ReturnType<typeof useCreateDocumentMutation>;
 export type CreateDocumentMutationResult = Apollo.MutationResult<CreateDocumentMutation>;
-export type CreateDocumentMutationOptions = Apollo.BaseMutationOptions<CreateDocumentMutation, CreateDocumentMutationVariables>;
+export type CreateDocumentMutationOptions = Apollo.BaseMutationOptions<
+	CreateDocumentMutation,
+	CreateDocumentMutationVariables
+>;
 export const UploadFileUrlDocument = gql`
-    mutation UploadFileUrl($fileInfo: CreateUploadUrlRequestInput!) {
-  uploadFileUrl(fileInfo: $fileInfo) {
-    url
-    uuid
-  }
-}
-    `;
+	mutation UploadFileUrl($fileInfo: CreateUploadUrlRequestInput!) {
+		uploadFileUrl(fileInfo: $fileInfo) {
+			url
+			uuid
+		}
+	}
+`;
 export type UploadFileUrlMutationFn = Apollo.MutationFunction<UploadFileUrlMutation, UploadFileUrlMutationVariables>;
 
 /**
@@ -183,10 +195,15 @@ export type UploadFileUrlMutationFn = Apollo.MutationFunction<UploadFileUrlMutat
  *   },
  * });
  */
-export function useUploadFileUrlMutation(baseOptions?: Apollo.MutationHookOptions<UploadFileUrlMutation, UploadFileUrlMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UploadFileUrlMutation, UploadFileUrlMutationVariables>(UploadFileUrlDocument, options);
-      }
+export function useUploadFileUrlMutation(
+	baseOptions?: Apollo.MutationHookOptions<UploadFileUrlMutation, UploadFileUrlMutationVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<UploadFileUrlMutation, UploadFileUrlMutationVariables>(UploadFileUrlDocument, options);
+}
 export type UploadFileUrlMutationHookResult = ReturnType<typeof useUploadFileUrlMutation>;
 export type UploadFileUrlMutationResult = Apollo.MutationResult<UploadFileUrlMutation>;
-export type UploadFileUrlMutationOptions = Apollo.BaseMutationOptions<UploadFileUrlMutation, UploadFileUrlMutationVariables>;
+export type UploadFileUrlMutationOptions = Apollo.BaseMutationOptions<
+	UploadFileUrlMutation,
+	UploadFileUrlMutationVariables
+>;
