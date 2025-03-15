@@ -7,3 +7,13 @@ mutation CreateDocument($request: CreateDocumentRequestInput!) {
         file
     }
 }
+
+query FindDocument($query: DocumentQueryRequestInput!) {
+    findDocument(query: $query) {
+        uuid
+        name
+        state
+        owner
+        file
+    }
+}

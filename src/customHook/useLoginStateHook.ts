@@ -1,16 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLoginStateLazyQuery } from '@/generated/graphql';
 
-const GET_LOGIN_USER_INFO = gql`
-	query LoginState {
-		loginState {
-			email
-			uuid
-		}
-	}
-`;
 /**
  * 로그인 정보 조회
  *
@@ -20,7 +12,7 @@ export default function useLoginStateHook() {
 	const [jwt, setJwt] = useState<string | undefined>(undefined);
 	const [loginUser, setLoginUser] = useState<{ email: string; uuid: string } | undefined | null>(undefined);
 
-	const [getLoginUser, { loading, error, data }] = useLazyQuery(GET_LOGIN_USER_INFO);
+	const [getLoginUser, { loading, error, data }] = useLoginStateLazyQuery();
 
 	// 컴포넌트 마운트 시 Jwt 쿠키 정보 로드
 	useEffect(() => {
@@ -37,12 +29,13 @@ export default function useLoginStateHook() {
 		if (!jwt) {
 			return;
 		}
-		getLoginUser().then(({ data: { loginState } }) => {
+		getLoginUser().then(({ data }) => {
+			const result = data?.loginState;
 			// 로그인 정보 x -> Jwt 쿠키 파기 및 새로고침
-			if (!loginState) {
+			if (!result) {
 				logout();
 			}
-			setLoginUser(loginState);
+			setLoginUser(result);
 		});
 	}, [jwt, getLoginUser]);
 

@@ -1,0 +1,6 @@
+query LoginState {
+    loginState {
+        uuid
+        email
+    }
+}
