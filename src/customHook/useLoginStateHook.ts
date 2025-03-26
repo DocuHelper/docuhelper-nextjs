@@ -26,7 +26,7 @@ export default function useLoginStateHook() {
 
 	// 쿠키기반 인증정보 조회
 	useEffect(() => {
-		if (!jwt) {
+		if (!jwt || process.env['NEXT_PUBLIC_DEFAULT_LOGIN']) {
 			return;
 		}
 		getLoginUser().then(({ data }) => {
