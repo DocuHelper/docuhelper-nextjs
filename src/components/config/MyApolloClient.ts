@@ -1,10 +1,10 @@
 'use client';
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { splitLink } from '@/components/config/wsLink';
 
 export const client = new ApolloClient({
-	// uri: 'https://docuhelper.bmserver.org/graphql',
-	uri: process.env.NEXT_PUBLIC_DOCUHELPER_API_URL,
+	link: splitLink,
 	cache: new InMemoryCache(),
 	credentials: 'include',
 });
