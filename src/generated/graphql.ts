@@ -24,6 +24,45 @@ export type BaseDomain = {
   uuid?: Maybe<Scalars['UUID']['output']>;
 };
 
+export type Chat = BaseDomain & {
+  __typename?: 'Chat';
+  document: Scalars['UUID']['output'];
+  result?: Maybe<Scalars['String']['output']>;
+  state: ChatState;
+  userAsk: Scalars['String']['output'];
+  userUuid: Scalars['UUID']['output'];
+  uuid?: Maybe<Scalars['UUID']['output']>;
+};
+
+export type ChatQueryRequestInput = {
+  document?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ChatSendRequestInput = {
+  ask: Scalars['String']['input'];
+  document: Scalars['UUID']['input'];
+};
+
+export enum ChatState {
+  Compete = 'COMPETE',
+  Processing = 'PROCESSING'
+}
+
+export type Chunk = BaseDomain & {
+  __typename?: 'Chunk';
+  content: Scalars['String']['output'];
+  document: Scalars['UUID']['output'];
+  embedContent: Array<Scalars['Float']['output']>;
+  num: Scalars['Int']['output'];
+  page: Scalars['Int']['output'];
+  uuid?: Maybe<Scalars['UUID']['output']>;
+};
+
+export type CounterResponse = {
+  __typename?: 'CounterResponse';
+  value: Scalars['Int']['output'];
+};
+
 export type CreateDocumentRequestInput = {
   file: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
@@ -41,7 +80,13 @@ export type Document = BaseDomain & {
   name: Scalars['String']['output'];
   owner: Scalars['UUID']['output'];
   state: DocumentState;
+  updateDocumentState: Document;
   uuid?: Maybe<Scalars['UUID']['output']>;
+};
+
+
+export type DocumentUpdateDocumentStateArgs = {
+  state: DocumentState;
 };
 
 export type DocumentQueryRequestInput = {
@@ -60,6 +105,7 @@ export enum DocumentState {
 export type Mutation = {
   __typename?: 'Mutation';
   createDocument: Document;
+  send: Chat;
   testMutation: Scalars['String']['output'];
   uploadFileUrl: UploadUrl;
 };
@@ -67,6 +113,11 @@ export type Mutation = {
 
 export type MutationCreateDocumentArgs = {
   request: CreateDocumentRequestInput;
+};
+
+
+export type MutationSendArgs = {
+  request: ChatSendRequestInput;
 };
 
 
@@ -81,14 +132,48 @@ export type MutationUploadFileUrlArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  findChat: Array<Chat>;
+  findChunkByEmbedValue: Array<Chunk>;
   findDocument: Array<Document>;
   loginState?: Maybe<User>;
+  test: Scalars['String']['output'];
   testQuery: Scalars['String']['output'];
+};
+
+
+export type QueryFindChatArgs = {
+  queryRequest: ChatQueryRequestInput;
+};
+
+
+export type QueryFindChunkByEmbedValueArgs = {
+  document: Scalars['UUID']['input'];
+  embed: Array<Scalars['Float']['input']>;
 };
 
 
 export type QueryFindDocumentArgs = {
   query: DocumentQueryRequestInput;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  /** Returns a random number every second */
+  counter: CounterResponse;
+  /** Returns a random number every second, errors if even */
+  counterWithError: Scalars['Int']['output'];
+  /** Returns stream of values */
+  flow: Scalars['Int']['output'];
+  /** Returns stream of errors */
+  flowOfErrors?: Maybe<Scalars['String']['output']>;
+  /** Returns one value then an error */
+  singleValueThenError: Scalars['Int']['output'];
+  subNotice: Scalars['String']['output'];
+};
+
+
+export type SubscriptionCounterArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UploadUrl = {
@@ -102,6 +187,20 @@ export type User = {
   email: Scalars['String']['output'];
   uuid: Scalars['UUID']['output'];
 };
+
+export type SendChatMutationVariables = Exact<{
+  query: ChatSendRequestInput;
+}>;
+
+
+export type SendChatMutation = { __typename?: 'Mutation', send: { __typename?: 'Chat', uuid?: any | null, state: ChatState, document: any, userAsk: string, result?: string | null } };
+
+export type FindChatQueryVariables = Exact<{
+  query: ChatQueryRequestInput;
+}>;
+
+
+export type FindChatQuery = { __typename?: 'Query', findChat: Array<{ __typename?: 'Chat', uuid?: any | null, userAsk: string, result?: string | null, document: any, state: ChatState }> };
 
 export type CreateDocumentMutationVariables = Exact<{
   request: CreateDocumentRequestInput;
@@ -124,12 +223,98 @@ export type UploadFileUrlMutationVariables = Exact<{
 
 export type UploadFileUrlMutation = { __typename?: 'Mutation', uploadFileUrl: { __typename?: 'UploadUrl', url: any, uuid: any } };
 
+export type SubNoticeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubNoticeSubscription = { __typename?: 'Subscription', subNotice: string };
+
 export type LoginStateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LoginStateQuery = { __typename?: 'Query', loginState?: { __typename?: 'User', uuid: any, email: string } | null };
 
 
+export const SendChatDocument = gql`
+    mutation SendChat($query: ChatSendRequestInput!) {
+  send(request: $query) {
+    uuid
+    state
+    document
+    userAsk
+    result
+  }
+}
+    `;
+export type SendChatMutationFn = Apollo.MutationFunction<SendChatMutation, SendChatMutationVariables>;
+
+/**
+ * __useSendChatMutation__
+ *
+ * To run a mutation, you first call `useSendChatMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendChatMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendChatMutation, { data, loading, error }] = useSendChatMutation({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSendChatMutation(baseOptions?: Apollo.MutationHookOptions<SendChatMutation, SendChatMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendChatMutation, SendChatMutationVariables>(SendChatDocument, options);
+      }
+export type SendChatMutationHookResult = ReturnType<typeof useSendChatMutation>;
+export type SendChatMutationResult = Apollo.MutationResult<SendChatMutation>;
+export type SendChatMutationOptions = Apollo.BaseMutationOptions<SendChatMutation, SendChatMutationVariables>;
+export const FindChatDocument = gql`
+    query FindChat($query: ChatQueryRequestInput!) {
+  findChat(queryRequest: $query) {
+    uuid
+    userAsk
+    result
+    document
+    state
+  }
+}
+    `;
+
+/**
+ * __useFindChatQuery__
+ *
+ * To run a query within a React component, call `useFindChatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindChatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindChatQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useFindChatQuery(baseOptions: Apollo.QueryHookOptions<FindChatQuery, FindChatQueryVariables> & ({ variables: FindChatQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindChatQuery, FindChatQueryVariables>(FindChatDocument, options);
+      }
+export function useFindChatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindChatQuery, FindChatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindChatQuery, FindChatQueryVariables>(FindChatDocument, options);
+        }
+export function useFindChatSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindChatQuery, FindChatQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindChatQuery, FindChatQueryVariables>(FindChatDocument, options);
+        }
+export type FindChatQueryHookResult = ReturnType<typeof useFindChatQuery>;
+export type FindChatLazyQueryHookResult = ReturnType<typeof useFindChatLazyQuery>;
+export type FindChatSuspenseQueryHookResult = ReturnType<typeof useFindChatSuspenseQuery>;
+export type FindChatQueryResult = Apollo.QueryResult<FindChatQuery, FindChatQueryVariables>;
 export const CreateDocumentDocument = gql`
     mutation CreateDocument($request: CreateDocumentRequestInput!) {
   createDocument(request: $request) {
@@ -245,6 +430,33 @@ export function useUploadFileUrlMutation(baseOptions?: Apollo.MutationHookOption
 export type UploadFileUrlMutationHookResult = ReturnType<typeof useUploadFileUrlMutation>;
 export type UploadFileUrlMutationResult = Apollo.MutationResult<UploadFileUrlMutation>;
 export type UploadFileUrlMutationOptions = Apollo.BaseMutationOptions<UploadFileUrlMutation, UploadFileUrlMutationVariables>;
+export const SubNoticeDocument = gql`
+    subscription SubNotice {
+  subNotice
+}
+    `;
+
+/**
+ * __useSubNoticeSubscription__
+ *
+ * To run a query within a React component, call `useSubNoticeSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubNoticeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubNoticeSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSubNoticeSubscription(baseOptions?: Apollo.SubscriptionHookOptions<SubNoticeSubscription, SubNoticeSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubNoticeSubscription, SubNoticeSubscriptionVariables>(SubNoticeDocument, options);
+      }
+export type SubNoticeSubscriptionHookResult = ReturnType<typeof useSubNoticeSubscription>;
+export type SubNoticeSubscriptionResult = Apollo.SubscriptionResult<SubNoticeSubscription>;
 export const LoginStateDocument = gql`
     query LoginState {
   loginState {

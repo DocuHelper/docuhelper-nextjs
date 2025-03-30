@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import WarpLayer from '@/components/config/WarpLayer';
+import UserNotice from '@/components/config/UserNotice';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -23,7 +24,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body
 				className={`flex min-h-screen flex-col items-center justify-center ${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<WarpLayer>{children}</WarpLayer>
+				<WarpLayer>
+					<UserNotice />
+					{children}
+				</WarpLayer>
 			</body>
 		</html>
 	);
