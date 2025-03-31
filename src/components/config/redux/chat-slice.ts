@@ -3,10 +3,12 @@ import { Chat } from '@/generated/graphql';
 
 interface ChatState {
 	chatHistory: [Chat] | undefined;
+	selectedDocument: string | null;
 }
 
 const initialState: ChatState = {
 	chatHistory: undefined,
+	selectedDocument: null,
 };
 
 const chat = createSlice({
@@ -21,8 +23,13 @@ const chat = createSlice({
 			state.chatHistory?.push(action.payload);
 			return state;
 		},
+
+		selectDocument: (state, action: PayloadAction<string>) => {
+			state.selectedDocument = action.payload;
+			return state;
+		},
 	},
 });
 
-export const { initChatStore, addChatHistory } = chat.actions;
+export const { initChatStore, addChatHistory, selectDocument } = chat.actions;
 export default chat.reducer;

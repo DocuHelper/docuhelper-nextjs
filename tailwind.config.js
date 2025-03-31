@@ -5,7 +5,15 @@ import scrollbarHide from 'tailwind-scrollbar-hide';
 module.exports = {
 	content: [],
 	theme: {
-		extend: {},
+		extend: {
+			typography: {
+				DEFAULT: {
+					css: {
+						maxWidth: '100%',
+					},
+				},
+			},
+		},
 	},
 	plugins: [scrollbarHide, typography],
 };

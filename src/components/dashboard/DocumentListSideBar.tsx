@@ -49,6 +49,7 @@ export default function DocumentListSideBar() {
 					{findDocument.map((document) => {
 						return (
 							<DocumentItem
+								// onclick={() => {}}
 								key={document.uuid}
 								state={document.state}
 								name={document.name}

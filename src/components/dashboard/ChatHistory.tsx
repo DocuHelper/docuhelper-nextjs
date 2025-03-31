@@ -7,7 +7,7 @@ export default function ChatHistory() {
 	const chatHistory = useAppSelector((state) => state.chat.chatHistory);
 	console.log(chatHistory);
 
-	if (!chatHistory) {
+	if (!chatHistory || !chatHistory.length) {
 		return (
 			<div className="flex h-full w-full flex-grow justify-center gap-10 rounded-2xl border border-gray-300 p-6 transition-all hover:shadow-xl">
 				<p>
@@ -25,8 +25,8 @@ export default function ChatHistory() {
 
 	return (
 		<div className="scrollbar-hide flex w-full flex-grow justify-center gap-10 overflow-auto rounded-2xl border border-gray-300 p-6 transition-all hover:shadow-xl">
-			<ol className="w-full">
-				<Markdown className="prose">{chatHistory[chatHistory.length - 1].result}</Markdown>
+			<ol className="flex w-full">
+				<Markdown className="prose">{chatHistory[chatHistory.length - 1]?.result}</Markdown>
 			</ol>
 		</div>
 	);

@@ -2,22 +2,27 @@
 
 import { useState } from 'react';
 import { useSendChatMutation } from '@/generated/graphql';
+import { useAppSelector } from '@/components/config/redux/hooks';
 
 export default function ChatInput() {
 	const [ask, setAsk] = useState('');
+	const selectedDocument = useAppSelector((state) => state.chat.selectedDocument);
 
 	const [mutateFunction, { data, loading, error }] = useSendChatMutation();
 
 	const sendBtnEvent = () => {
+		if (!selectedDocument) {
+			alert('문서를 선택해주세요');
+			return;
+		}
 		mutateFunction({
 			variables: {
 				query: {
 					ask: ask,
-					document: '0d9185d0-21be-4ced-ac26-7be6efbfb9a5',
+					document: selectedDocument,
 				},
 			},
 		}).then((value) => {
-			console.log(value);
 			setAsk('');
 		});
 	};
@@ -52,6 +57,7 @@ export default function ChatInput() {
 					</li>
 				</ul>
 			</div>
+			<p>{selectedDocument}</p>
 		</>
 	);
 }
