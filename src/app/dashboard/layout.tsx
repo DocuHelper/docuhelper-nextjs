@@ -19,7 +19,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
 				</div>
 			</div>
 			{/* center */}
-			<div className="scrollbar-hide z-10 flex max-h-screen flex-grow flex-col items-center justify-center bg-white p-4 transition-all hover:shadow-xl">
+			<div className="scrollbar-hide z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-white transition-all hover:shadow-xl">
 				{children}
 			</div>
 			{/* right sidebar */}

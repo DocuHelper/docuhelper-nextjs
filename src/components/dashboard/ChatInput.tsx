@@ -27,7 +27,7 @@ export default function ChatInput() {
 		});
 	};
 	return (
-		<>
+		<div className="flex w-4/5 flex-col items-center">
 			<div className="flex h-14 w-full justify-center gap-10">
 				<input
 					value={ask}
@@ -47,8 +47,9 @@ export default function ChatInput() {
 				/>
 			</div>
 
-			<div className="mt-2 flex h-12 justify-center gap-4">
-				<ul className="flex flex-grow gap-2 rounded-full border border-gray-300 p-3.5 transition-all hover:shadow-xl">
+			<div className="mt-4 flex h-12 w-1/8 justify-center gap-4">
+				<ul className="flex flex-grow items-center justify-between rounded-full border border-gray-300 p-3.5 transition-all hover:shadow-xl">
+					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
 					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
 					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
 					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
@@ -58,6 +59,6 @@ export default function ChatInput() {
 				</ul>
 			</div>
 			<p>{selectedDocument}</p>
-		</>
+		</div>
 	);
 }
