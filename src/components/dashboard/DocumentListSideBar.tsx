@@ -2,7 +2,7 @@
 
 import DocumentItem from '@/components/dashboard/DocumentItem';
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { useFindDocumentQuery } from '@/generated/graphql';
+import { useAppSelector } from '@/components/config/redux/hooks';
 
 export default function DocumentListSideBar() {
 	const tempRef = useRef<HTMLDivElement | undefined>(undefined);
@@ -11,13 +11,9 @@ export default function DocumentListSideBar() {
 		height: number;
 	}>();
 
-	const { loading, error, data } = useFindDocumentQuery({
-		variables: { query: {} },
-	});
+	const myDocument = useAppSelector((state) => state.document.document);
 
 	useEffect(() => {
-		if (loading) return;
-
 		const currentEl = tempRef.current;
 
 		if (currentEl === undefined) return;
@@ -28,11 +24,7 @@ export default function DocumentListSideBar() {
 			width: currentEl.offsetWidth,
 			height: currentEl.offsetHeight,
 		});
-	}, [loading, listSize]);
-
-	if (loading) return null;
-
-	const findDocument = data?.findDocument || [];
+	}, [listSize]);
 
 	return (
 		<>
@@ -46,7 +38,7 @@ export default function DocumentListSideBar() {
 					}}
 					className="scrollbar-hide absolute flex flex-col overflow-auto"
 				>
-					{findDocument.map((document) => {
+					{myDocument?.map((document) => {
 						return (
 							<DocumentItem
 								// onclick={() => {}}
