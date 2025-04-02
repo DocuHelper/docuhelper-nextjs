@@ -5,14 +5,14 @@ export default function layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="flex w-full flex-grow">
 			{/* left sidebar */}
-			<div className="min-w-80 bg-gray-200">
+			<div className="max-h-screen min-w-80 bg-gray-200">
 				<div className="flex h-full flex-col transition-all hover:drop-shadow-xl">
 					{/* userProfile */}
 					<div className="h-20">
 						<UserProfile />
 					</div>
 					{/* documentList */}
-					<div className="flex-grow bg-white">
+					<div className="relative max-h-full flex-grow bg-white">
 						<DocumentListSideBar />
 					</div>
 					<div className="h-20"></div>
