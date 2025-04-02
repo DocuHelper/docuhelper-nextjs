@@ -1,32 +1,35 @@
 import DocumentListSideBar from '@/components/dashboard/DocumentListSideBar';
 import UserProfile from '@/components/dashboard/UserProfile';
+import DocumentUploader from '@/components/dashboard/DocumentUploader';
 
 export default function layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="flex w-full flex-grow">
 			{/* left sidebar */}
 			<div className="max-h-screen min-w-80 bg-gray-200">
-				<div className="flex h-full flex-col transition-all hover:drop-shadow-xl">
+				<div className="flex h-full flex-col">
 					{/* userProfile */}
-					<div className="h-20">
+					<div className="m-4 mb-2 h-20">
 						<UserProfile />
 					</div>
 					{/* documentList */}
-					<div className="relative max-h-full flex-grow bg-white">
+					<div className="relative m-4 my-2 max-h-full flex-grow bg-gray-200">
 						<DocumentListSideBar />
 					</div>
-					<div className="h-20"></div>
+					<div className="m-4 mt-2 h-20">
+						<DocumentUploader />
+					</div>
 				</div>
 			</div>
 			{/* center */}
-			<div className="scrollbar-hide z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-white transition-all hover:shadow-xl">
-				{children}
+			<div className="scrollbar-hide z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-gray-200 p-6">
+				<div className="h-full rounded-xl bg-white transition-all hover:shadow-xl">{children}</div>
 			</div>
 			{/* right sidebar */}
-			<div className="flex min-w-12 flex-col transition-all hover:drop-shadow-xl">
-				<div className="aspect-square bg-gray-200"></div>
-				<div className="flex-grow bg-gray-50"></div>
-			</div>
+			{/*<div className="flex min-w-12 flex-col transition-all hover:drop-shadow-xl">*/}
+			{/*	<div className="aspect-square bg-gray-200"></div>*/}
+			{/*	<div className="flex-grow bg-gray-50"></div>*/}
+			{/*</div>*/}
 		</div>
 	);
 }

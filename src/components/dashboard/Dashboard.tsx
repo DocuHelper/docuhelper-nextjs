@@ -12,7 +12,7 @@ export default function Dashboard() {
 						<ChatHistory />
 					</div>
 					<div className="w-full border-t border-gray-300" />
-					<div className="mt-10 mb-10 flex w-full justify-center">
+					<div className="mt-5 mb-5 flex w-full justify-center">
 						<ChatInput />
 					</div>
 				</div>

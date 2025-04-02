@@ -3,21 +3,23 @@ import { useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useUploadFileUrlMutation } from '@/generated/graphql';
 
-function defaultUploadOnComplete(fileUuid: string) {
-	console.log('fileUploadComplet!!');
-	console.log('fileUUID: ', fileUuid);
-}
+type FileUploaderProps = {
+	uploadOnComplete: (file: FileType) => void;
+	children?: React.ReactNode;
+};
 
-export default function FileUploader({
-	uploadOnComplete = defaultUploadOnComplete,
-}: {
-	uploadOnComplete?: (fileUuid: string) => void;
-}) {
+type FileType = {
+	fileUuid: string;
+	fileName: string;
+	extension: string;
+};
+
+export default function FileUploader({ uploadOnComplete, children }: FileUploaderProps) {
 	const fileInput = useRef<HTMLInputElement | null>(null);
 	const [mutateFunction, { data, loading, error }] = useUploadFileUrlMutation();
 	const onDrop = async (acceptedFiles: File[]) => {
 		// const file = event.target?.files[0];
-		const file = acceptedFiles[0] as File;
+		const file = acceptedFiles[0];
 		if (!file) return;
 
 		// 파일 정보 추출
@@ -50,7 +52,11 @@ export default function FileUploader({
 			},
 			body: file,
 		});
-		uploadOnComplete(uuid);
+		uploadOnComplete({
+			fileUuid: uuid,
+			extension: fileExtension,
+			fileName: fileName,
+		});
 	};
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -62,10 +68,10 @@ export default function FileUploader({
 		<>
 			<div
 				{...getRootProps()}
-				className={`rounded-md border border-dashed p-4 text-center ${isDragActive && 'border-purple-600'}`}
+				className={`h-full w-full`}
 				onClick={() => fileInput.current && 'click' in fileInput.current && fileInput?.current?.click()}
 			>
-				FileDropArea
+				{children || 'FileDropArea'}
 				<input
 					{...getInputProps()}
 					type="file"
