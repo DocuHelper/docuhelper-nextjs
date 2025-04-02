@@ -16,14 +16,14 @@ export default function layout({ children }: { children: React.ReactNode }) {
 					<div className="relative m-4 my-2 max-h-full flex-grow bg-gray-200">
 						<DocumentListSideBar />
 					</div>
-					<div className="m-4 mt-2 h-20">
+					<div className="m-4 mt-2 mb-6 h-20">
 						<DocumentUploader />
 					</div>
 				</div>
 			</div>
 			{/* center */}
 			<div className="scrollbar-hide z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-gray-200 p-6">
-				<div className="h-full rounded-xl bg-white transition-all hover:shadow-xl">{children}</div>
+				<div className="h-full w-full rounded-xl bg-white transition-all hover:shadow-xl">{children}</div>
 			</div>
 			{/* right sidebar */}
 			{/*<div className="flex min-w-12 flex-col transition-all hover:drop-shadow-xl">*/}
