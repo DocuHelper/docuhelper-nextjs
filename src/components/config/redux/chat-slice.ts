@@ -20,7 +20,14 @@ const chat = createSlice({
 			return state;
 		},
 		addChatHistory: (state, action: PayloadAction<Chat>) => {
-			state.chatHistory?.push(action.payload);
+			const index = state.chatHistory?.findIndex((chat) => chat.uuid === action.payload.uuid);
+
+			if (index !== undefined && index !== -1 && state.chatHistory) {
+				state.chatHistory[index] = action.payload;
+			} else {
+				state.chatHistory?.push(action.payload);
+			}
+
 			return state;
 		},
 
