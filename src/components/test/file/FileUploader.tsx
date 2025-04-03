@@ -68,10 +68,11 @@ export default function FileUploader({ uploadOnComplete, children }: FileUploade
 		<>
 			<div
 				{...getRootProps()}
-				className={`h-full w-full`}
+				className={`relative h-full w-full cursor-pointer select-none`}
 				onClick={() => fileInput.current && 'click' in fileInput.current && fileInput?.current?.click()}
 			>
 				{children || 'FileDropArea'}
+				<div className="inert:0 absolute top-0 h-full w-full bg-black opacity-0 transition-all hover:opacity-10"></div>
 				<input
 					{...getInputProps()}
 					type="file"
