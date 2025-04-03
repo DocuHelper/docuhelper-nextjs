@@ -4,11 +4,13 @@ import { Chat } from '@/generated/graphql';
 interface ChatState {
 	chatHistory: [Chat] | undefined;
 	selectedDocument: string | null;
+	viewBottom: boolean;
 }
 
 const initialState: ChatState = {
 	chatHistory: undefined,
 	selectedDocument: null,
+	viewBottom: false,
 };
 
 const chat = createSlice({
@@ -35,8 +37,12 @@ const chat = createSlice({
 			state.selectedDocument = action.payload;
 			return state;
 		},
+		updateViewBottom: (state, action: PayloadAction<boolean>) => {
+			state.viewBottom = action.payload;
+			return state;
+		},
 	},
 });
 
-export const { initChatStore, addChatHistory, selectDocument } = chat.actions;
+export const { initChatStore, addChatHistory, selectDocument, updateViewBottom } = chat.actions;
 export default chat.reducer;

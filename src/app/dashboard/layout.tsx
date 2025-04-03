@@ -22,7 +22,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
 				</div>
 			</div>
 			{/* center */}
-			<div className="scrollbar-hide z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-gray-200 p-6">
+			<div className="z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-gray-200 p-6">
 				<div className="h-full w-full rounded-xl bg-white transition-all hover:shadow-xl">{children}</div>
 			</div>
 			{/* right sidebar */}
