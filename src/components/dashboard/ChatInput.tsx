@@ -47,18 +47,17 @@ export default function ChatInput() {
 				/>
 			</div>
 
-			<div className="mt-4 flex h-10 w-1/8 justify-center gap-4">
-				<ul className="flex flex-grow items-center justify-between rounded-full border border-gray-300 p-2.5 transition-all hover:shadow-xl">
-					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
-					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
-					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
-					<li className="aspect-square h-full rounded-full bg-gray-400"></li>
-					<li className="flex aspect-square h-full items-center justify-center rounded-full border border-gray-400 text-xl text-gray-400">
-						+
-					</li>
-				</ul>
-			</div>
-			<p>{selectedDocument}</p>
+			{/*<div className="mt-4 flex h-10 w-1/8 justify-center gap-4">*/}
+			{/*	<ul className="flex flex-grow items-center justify-between rounded-full border border-gray-300 p-2.5 transition-all hover:shadow-xl">*/}
+			{/*		<li className="aspect-square h-full rounded-full bg-gray-400"></li>*/}
+			{/*		<li className="aspect-square h-full rounded-full bg-gray-400"></li>*/}
+			{/*		<li className="aspect-square h-full rounded-full bg-gray-400"></li>*/}
+			{/*		<li className="aspect-square h-full rounded-full bg-gray-400"></li>*/}
+			{/*		<li className="flex aspect-square h-full items-center justify-center rounded-full border border-gray-400 text-xl text-gray-400">*/}
+			{/*			+*/}
+			{/*		</li>*/}
+			{/*	</ul>*/}
+			{/*</div>*/}
 		</div>
 	);
 }

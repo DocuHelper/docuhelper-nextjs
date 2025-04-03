@@ -1,21 +1,28 @@
 'use client';
 
-import { useAppDispatch } from '@/components/config/redux/hooks';
-import { selectDocument } from '@/components/config/redux/chat-slice';
+import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks';
 import { Document, DocumentState } from '@/generated/graphql';
+import { selectDocument } from '@/components/config/redux/chat-slice';
+import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
 
 export default function DocumentItem({ uuid, name, state }: Document) {
 	const dispatch = useAppDispatch();
-
+	const selectedDocument = useAppSelector((store) => store.chat.selectedDocument);
 	return (
 		<li
 			onClick={() => {
 				dispatch(selectDocument(uuid));
 			}}
-			className="flex justify-between border-gray-400 p-4 last:border-b-0"
+			className={`relative flex justify-between rounded-xl p-4 last:border-b-0 ${selectedDocument === uuid && 'bg-white'}`}
 		>
 			<p className="truncate">{name}</p>
 			<p className="ml-4 min-w-fit">{getDocumentState(state)}</p>
+
+			<i
+				className={`absolute -top-3 -right-3 aspect-square h-full w-6 ${selectedDocument === uuid ? 'block' : 'hidden'}`}
+			>
+				<ChatBubbleOvalLeftIcon className="text-gray-500" />
+			</i>
 		</li>
 	);
 }

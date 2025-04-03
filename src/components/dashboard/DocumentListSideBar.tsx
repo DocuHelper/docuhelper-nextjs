@@ -16,7 +16,7 @@ export default function DocumentListSideBar() {
 	return (
 		<>
 			<div className="absolute inset-0">
-				<ul className="scrollbar-hide flex max-h-full flex-grow flex-col overflow-auto">
+				<ul className="scrollbar-hide flex max-h-full flex-grow flex-col gap-3 overflow-auto pt-4 pr-4">
 					{myDocument?.map((document) => {
 						return <DocumentItem key={document.uuid} {...document} />;
 					})}
