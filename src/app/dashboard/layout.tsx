@@ -9,11 +9,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
 			<div className="max-h-screen min-w-80 bg-gray-200">
 				<div className="flex h-full flex-col py-3">
 					{/* userProfile */}
-					<div className="m-4 mb-2 h-20">
+					<div className="m-4 mb-0 h-20">
 						<UserProfile />
 					</div>
 					{/* documentList */}
-					<div className="relative my-2 mr-0 ml-4 max-h-full flex-grow bg-gray-200">
+					<div className="relative mr-0 ml-4 max-h-full flex-grow bg-gray-200">
 						<DocumentListSideBar />
 					</div>
 					<div className="m-4 mt-2 h-20">

@@ -19,7 +19,7 @@ export default function DocumentItem({ uuid, name, state }: Document) {
 			<p className="ml-4 min-w-fit">{getDocumentState(state)}</p>
 
 			<i
-				className={`absolute -top-3 -right-3 aspect-square h-full w-6 ${selectedDocument === uuid ? 'block' : 'hidden'} `}
+				className={`absolute -top-2 -right-2 aspect-square h-full w-6 ${selectedDocument === uuid ? 'block' : 'hidden'} `}
 			>
 				<ChatBubbleOvalLeftIcon className="text-gray-500" />
 			</i>
