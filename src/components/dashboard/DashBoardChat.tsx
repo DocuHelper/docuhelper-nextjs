@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks'
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import { LinkIcon } from '@heroicons/react/20/solid';
 import { loadChatAnswerRef } from '@/components/config/redux/chatAnswerRef-slice';
+import MarkdownPreview from '@/components/common/MarkdownPreview';
 
 type DashBoardChatType = {
 	chat: Chat;
@@ -71,5 +72,5 @@ function ChatAnswer({ chat }: { chat: Chat }) {
 	if (!chat.result) {
 		return <Markdown className="prose">뒤적뒤적</Markdown>;
 	}
-	return <Markdown className="prose">{chat.result}</Markdown>;
+	return <MarkdownPreview markdown={chat.result} />;
 }

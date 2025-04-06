@@ -1,8 +1,8 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks';
-import Markdown from 'react-markdown';
 import { useEffect, useState } from 'react';
 import { clearChatAnswerRef } from '@/components/config/redux/chatAnswerRef-slice';
+import MarkdownPreview from '@/components/common/MarkdownPreview';
 
 export default function AnswerRefArea() {
 	const INIT_WIDTH = 500;
@@ -60,7 +60,7 @@ export default function AnswerRefArea() {
 									Page {ref.chunk.page} - {ref.chunk.num}
 								</div>
 								<div className="rounded-2xl rounded-tl-none border border-gray-300 p-5">
-									<Markdown className="prose overflow-hidden">{ref.chunk.content}</Markdown>
+									<MarkdownPreview markdown={ref.chunk.content} />
 								</div>
 							</div>
 						);
