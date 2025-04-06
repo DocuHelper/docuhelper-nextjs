@@ -1,6 +1,7 @@
 import DocumentListSideBar from '@/components/dashboard/DocumentListSideBar';
 import UserProfile from '@/components/dashboard/UserProfile';
 import DocumentUploader from '@/components/dashboard/DocumentUploader';
+import AnswerRefArea from '@/components/dashboard/AnswerRefArea';
 
 export default function layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -22,14 +23,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
 				</div>
 			</div>
 			{/* center */}
-			<div className="z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-gray-200 p-6 pl-2">
+			<div className="z-10 flex max-h-screen flex-grow flex-col items-center justify-center border-l border-gray-200 bg-gray-200 p-6 pr-0 pl-2">
 				<div className="h-full w-full rounded-xl bg-white transition-all hover:shadow-xl">{children}</div>
 			</div>
 			{/* right sidebar */}
-			{/*<div className="flex min-w-12 flex-col transition-all hover:drop-shadow-xl">*/}
-			{/*	<div className="aspect-square bg-gray-200"></div>*/}
-			{/*	<div className="flex-grow bg-gray-50"></div>*/}
-			{/*</div>*/}
+			<AnswerRefArea />
 		</div>
 	);
 }

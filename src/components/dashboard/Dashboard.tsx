@@ -8,7 +8,7 @@ import { UIEventHandler, useRef } from 'react';
 
 export default function Dashboard() {
 	const dispatch = useAppDispatch();
-	const ref = useRef<HTMLDivElement>(null);
+	const historyRef = useRef<HTMLDivElement>(null);
 
 	const historyScrollEv: UIEventHandler<HTMLDivElement> = (event) => {
 		const target = event.currentTarget;
@@ -27,10 +27,14 @@ export default function Dashboard() {
 				<div
 					className="scrollbar-hide flex h-full w-full grow flex-col items-center gap-6 overflow-auto"
 					onScroll={historyScrollEv}
-					ref={ref}
+					ref={historyRef}
+					onClick={(event) => {
+						console.log(historyRef.current);
+						console.log(event.target);
+					}}
 				>
 					<div className="mb-10 grow" />
-					<ChatHistory scrollElement={ref} />
+					<ChatHistory scrollElement={historyRef} />
 				</div>
 				<div className="w-full border-t border-gray-300" />
 				<div className="mt-5 mb-5 flex w-full justify-center">

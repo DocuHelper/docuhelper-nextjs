@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/components/config/redux/auth-slice';
 import chatSlice from '@/components/config/redux/chat-slice';
 import documentSlice from '@/components/config/redux/document-slice';
+import chatAnswerRefSlice from '@/components/config/redux/chatAnswerRef-slice';
 
 export const makeStore = () => {
 	return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
 			auth: authSlice,
 			chat: chatSlice,
 			document: documentSlice,
+			chatAnswerRef: chatAnswerRefSlice,
 		},
 	});
 };

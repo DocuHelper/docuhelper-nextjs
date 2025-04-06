@@ -17,3 +17,16 @@ query FindChat($query: ChatQueryRequestInput!) {
         state,
     }
 }
+
+query FindChatAnswerRef($query : AnswerRefQueryRequestInput!) {
+    findAnswerRefWithChunk(request: $query) {
+        answerRef {
+            similarity
+        }
+        chunk {
+            content
+            page
+            num
+        }
+    }
+}

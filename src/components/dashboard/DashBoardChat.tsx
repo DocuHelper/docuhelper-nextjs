@@ -1,8 +1,10 @@
 import Markdown from 'react-markdown';
-import { Chat } from '@/generated/graphql';
+import { Chat, useFindChatAnswerRefLazyQuery } from '@/generated/graphql';
 import { useEffect } from 'react';
-import { useAppSelector } from '@/components/config/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks';
 import { DocumentIcon } from '@heroicons/react/24/outline';
+import { LinkIcon } from '@heroicons/react/20/solid';
+import { loadChatAnswerRef } from '@/components/config/redux/chatAnswerRef-slice';
 
 type DashBoardChatType = {
 	chat: Chat;
@@ -10,8 +12,12 @@ type DashBoardChatType = {
 	scrollToBottom: () => void;
 };
 export default function DashBoardChat({ chat, isLast, scrollToBottom }: DashBoardChatType) {
+	const dispatch = useAppDispatch();
 	const viewBottom = useAppSelector((state) => state.chat.viewBottom);
 	const documents = useAppSelector((state) => state.document.document);
+	const selectedChatRef = useAppSelector((state) => state.chatAnswerRef.chat);
+
+	const [query] = useFindChatAnswerRefLazyQuery();
 
 	useEffect(() => {
 		if (viewBottom) {
@@ -21,11 +27,32 @@ export default function DashBoardChat({ chat, isLast, scrollToBottom }: DashBoar
 
 	return (
 		<div className="w-4/5">
-			<div className="flex h-10 w-fit rounded-t-2xl border border-b-0 border-gray-300 p-2 px-10">
-				<DocumentIcon className="aspect-square h-full" />
-				<p className="ml-4">
+			<div className="flex h-10 w-fit rounded-t-2xl border border-b-0 border-gray-300 pr-2 pl-3">
+				<DocumentIcon className="aspect-square h-full p-2" />
+				<p className="flex items-center">
 					{documents?.filter((document) => document.uuid == chat.document).map((document) => document.name)}
 				</p>
+				<i className="p-1">
+					<LinkIcon
+						className={`ml-4 aspect-square h-full rounded-full p-1 transition-all hover:bg-gray-200 ${selectedChatRef == chat.uuid ? 'bg-gray-200' : ''}`}
+						onClick={(event) => {
+							query({
+								variables: {
+									query: {
+										chat: chat.uuid,
+									},
+								},
+							}).then((value) => {
+								dispatch(
+									loadChatAnswerRef({
+										ref: value.data,
+										chat: chat.uuid,
+									}),
+								);
+							});
+						}}
+					/>
+				</i>
 			</div>
 			<div
 				key={chat.uuid}
