@@ -2,13 +2,14 @@
 
 import ChatHistory from '@/components/dashboard/ChatHistory';
 import ChatInput from '@/components/dashboard/ChatInput';
-import { useAppDispatch } from '@/components/config/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks';
 import { updateViewBottom } from '@/components/config/redux/chat-slice';
 import { UIEventHandler, useRef } from 'react';
 
 export default function Dashboard() {
 	const dispatch = useAppDispatch();
 	const historyRef = useRef<HTMLDivElement>(null);
+	const loginState = useAppSelector((state) => state.auth.user);
 
 	const historyScrollEv: UIEventHandler<HTMLDivElement> = (event) => {
 		const target = event.currentTarget;
@@ -19,6 +20,10 @@ export default function Dashboard() {
 			dispatch(updateViewBottom(false));
 		}
 	};
+
+	if (!loginState) {
+		location.href = '/';
+	}
 
 	return (
 		<>
