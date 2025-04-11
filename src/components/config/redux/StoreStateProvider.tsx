@@ -2,8 +2,8 @@
 
 import { useAppDispatch } from '@/components/config/redux/hooks';
 import useLoginStateHook from '@/customHook/useLoginStateHook';
-import { initAuthStore } from '@/components/config/redux/auth-slice';
 import { Chat, Document, useFindChatQuery, useFindDocumentQuery } from '@/generated/graphql';
+import { initAuthStore } from '@/components/config/redux/auth-slice';
 import { initChatStore } from '@/components/config/redux/chat-slice';
 import { initDocumentStore } from '@/components/config/redux/document-slice';
 
@@ -35,10 +35,7 @@ export default function StoreStateProvider({ children }: { children: React.React
 	dispatch(initDocumentStore(userDocuments.data?.findDocument as [Document]));
 
 	if (loginUser === undefined || chatHistory.loading || userDocuments.loading) {
-		console.log('로딩이 지연되고있습니다');
 		return;
-	} else {
-		console.log('로딩 끝!');
 	}
 
 	return <>{children}</>;

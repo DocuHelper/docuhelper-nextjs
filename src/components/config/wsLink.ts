@@ -9,7 +9,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
 	createClient({
-		url: '/subscriptions',
+		url: `${process.env['NEXT_PUBLIC_DOCUHELPER_SUBSCRIPTION_URL']}`,
 	}),
 );
 

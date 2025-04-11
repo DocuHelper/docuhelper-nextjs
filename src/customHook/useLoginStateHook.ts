@@ -26,7 +26,7 @@ export default function useLoginStateHook() {
 
 	// 쿠키기반 인증정보 조회
 	useEffect(() => {
-		if (!jwt || process.env['NEXT_PUBLIC_DEFAULT_LOGIN']) {
+		if (!jwt) {
 			return;
 		}
 		getLoginUser().then(({ data }) => {
@@ -37,12 +37,16 @@ export default function useLoginStateHook() {
 			}
 			setLoginUser(result);
 		});
-	}, [jwt, getLoginUser]);
+	}, [jwt, loginUser]);
 
 	return { loginUser, logout };
 }
 
 function getJwtByCookie() {
+	if (process.env['NEXT_PUBLIC_DEFAULT_LOGIN'] === 'true') {
+		return 'default-login';
+	}
+
 	if (typeof document === 'undefined') {
 		return null;
 	}
