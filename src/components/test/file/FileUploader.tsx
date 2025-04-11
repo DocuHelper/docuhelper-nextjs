@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useUploadFileUrlMutation } from '@/generated/graphql';
 
 type FileUploaderProps = {
+	validateFileInfo?: (fileName: string, fileExtension: string, fileSize: Number) => boolean;
 	uploadOnComplete: (file: FileType) => void;
 	children?: React.ReactNode;
 };
@@ -14,7 +15,7 @@ type FileType = {
 	extension: string;
 };
 
-export default function FileUploader({ uploadOnComplete, children }: FileUploaderProps) {
+export default function FileUploader({ uploadOnComplete, validateFileInfo, children }: FileUploaderProps) {
 	const fileInput = useRef<HTMLInputElement | null>(null);
 	const [mutateFunction, { data, loading, error }] = useUploadFileUrlMutation();
 	const onDrop = async (acceptedFiles: File[]) => {
@@ -26,6 +27,10 @@ export default function FileUploader({ uploadOnComplete, children }: FileUploade
 		const fileName = file.name;
 		const fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1); // 확장자 추출
 		const fileSize = file.size;
+
+		if (validateFileInfo && !validateFileInfo(fileName, fileExtension, fileSize)) {
+			return;
+		}
 
 		// 파일 정보를 기반으로 업로드 URL 요청
 		const result = await mutateFunction({

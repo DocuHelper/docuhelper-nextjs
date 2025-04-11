@@ -3,6 +3,7 @@
 import FileUploader from '@/components/test/file/FileUploader';
 import { CloudArrowUpIcon } from '@heroicons/react/16/solid';
 import { useCreateDocumentMutation } from '@/generated/graphql';
+import { Alert } from '@/components/common/Alert';
 
 export default function DocumentUploader() {
 	const [documentCreateMutation, { data, loading, error }] = useCreateDocumentMutation();
@@ -10,6 +11,17 @@ export default function DocumentUploader() {
 	return (
 		<>
 			<FileUploader
+				validateFileInfo={(fileName, fileExtension) => {
+					if (fileExtension.toLowerCase() != 'pdf') {
+						Alert.warning(
+							<p className="text-nowrap">
+								다른 파일 형식은 아직 지원되지 않아요. PDF 파일을 업로드해주세요
+							</p>,
+						);
+						return false;
+					}
+					return true;
+				}}
 				uploadOnComplete={(file) => {
 					documentCreateMutation({
 						variables: {

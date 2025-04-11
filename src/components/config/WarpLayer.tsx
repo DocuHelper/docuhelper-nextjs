@@ -14,8 +14,13 @@ export default function WarpLayer({
 		<>
 			<ApolloProvider client={client}>
 				<ToastContainer
+					toastStyle={{
+						width: 'fit-content',
+						paddingRight: '25px',
+					}}
+					stacked={true}
 					position="bottom-center"
-					autoClose={5000}
+					autoClose={3000}
 					hideProgressBar={false}
 					newestOnTop={false}
 					closeOnClick={false}

@@ -18,8 +18,10 @@ export default function UserNotice() {
 			switch (noticeType) {
 				case 'Chat':
 					dispatch(addChatHistory(newNotice));
+					return;
 				case 'Document':
 					dispatch(updateDocument(newNotice));
+					return;
 			}
 		}
 	}, [data, loading]);

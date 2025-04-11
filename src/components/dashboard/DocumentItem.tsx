@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks'
 import { Document, DocumentState } from '@/generated/graphql';
 import { selectDocument } from '@/components/config/redux/chat-slice';
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
+import { Alert } from '@/components/common/Alert';
 
 export default function DocumentItem({ uuid, name, state }: Document) {
 	const dispatch = useAppDispatch();
@@ -11,6 +12,10 @@ export default function DocumentItem({ uuid, name, state }: Document) {
 	return (
 		<li
 			onClick={() => {
+				if (state !== DocumentState.Complete) {
+					Alert.warning(<p className="text-nowrap">문서를 읽고 있어요. 조금만 기다려 주세요</p>);
+					return;
+				}
 				dispatch(selectDocument(uuid));
 			}}
 			className={`relative flex cursor-pointer justify-between rounded-xl p-4 select-none last:border-b-0 ${selectedDocument === uuid && 'bg-white'} ${selectedDocument === uuid || 'hover:bg-gray-300'} transition-all`}

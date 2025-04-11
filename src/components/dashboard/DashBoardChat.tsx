@@ -1,11 +1,12 @@
 import Markdown from 'react-markdown';
-import { Chat, useFindChatAnswerRefLazyQuery } from '@/generated/graphql';
+import { Chat, ChatState, useFindChatAnswerRefLazyQuery } from '@/generated/graphql';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import { LinkIcon } from '@heroicons/react/20/solid';
 import { loadChatAnswerRef } from '@/components/config/redux/chatAnswerRef-slice';
 import MarkdownPreview from '@/components/common/MarkdownPreview';
+import { Alert } from '@/components/common/Alert';
 
 type DashBoardChatType = {
 	chat: Chat;
@@ -37,6 +38,10 @@ export default function DashBoardChat({ chat, isLast, scrollToBottom }: DashBoar
 					<LinkIcon
 						className={`ml-4 aspect-square h-full rounded-full p-1 transition-all hover:bg-gray-200 ${selectedChatRef == chat.uuid ? 'bg-gray-200' : ''}`}
 						onClick={(event) => {
+							if (chat.state !== ChatState.Compete) {
+								Alert.warning(<p className="text-nowrap">답변이 완료된 후에 확인할 수 있어요.</p>);
+								return;
+							}
 							query({
 								variables: {
 									query: {
@@ -70,7 +75,7 @@ export default function DashBoardChat({ chat, isLast, scrollToBottom }: DashBoar
 
 function ChatAnswer({ chat }: { chat: Chat }) {
 	if (!chat.result) {
-		return <Markdown className="prose">뒤적뒤적</Markdown>;
+		return <Markdown className="prose">문서를 찾아보고있어요 조금만 기다려주세요.....</Markdown>;
 	}
 	return <MarkdownPreview markdown={chat.result} />;
 }

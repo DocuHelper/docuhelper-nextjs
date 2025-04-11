@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useSendChatMutation } from '@/generated/graphql';
 import { useAppSelector } from '@/components/config/redux/hooks';
+import { Alert } from '@/components/common/Alert';
 
 export default function ChatInput() {
 	const [ask, setAsk] = useState('');
@@ -12,7 +13,7 @@ export default function ChatInput() {
 
 	const sendBtnEvent = () => {
 		if (!selectedDocument) {
-			alert('문서를 선택해주세요');
+			Alert.warning('문서를 선택해주세요');
 			return;
 		}
 		mutateFunction({
@@ -30,6 +31,7 @@ export default function ChatInput() {
 		<div className="flex w-4/5 flex-col items-center">
 			<div className="flex h-12 w-full justify-center gap-10">
 				<input
+					placeholder="무슨 내용을 찾아드릴까요?"
 					value={ask}
 					onChange={(e) => {
 						setAsk(e.target.value);
@@ -40,10 +42,6 @@ export default function ChatInput() {
 						}
 					}}
 					className="flex-grow rounded-full border border-gray-300 transition-all hover:shadow-xl"
-				/>
-				<button
-					onClick={sendBtnEvent}
-					className="aspect-square h-full rounded-full border-gray-300 bg-gray-200 transition-all hover:shadow-xl"
 				/>
 			</div>
 
