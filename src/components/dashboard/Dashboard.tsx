@@ -33,10 +33,6 @@ export default function Dashboard() {
 					className="scrollbar-hide flex h-full w-full grow flex-col items-center gap-6 overflow-auto"
 					onScroll={historyScrollEv}
 					ref={historyRef}
-					onClick={(event) => {
-						console.log(historyRef.current);
-						console.log(event.target);
-					}}
 				>
 					<div className="mb-10 grow" />
 					<ChatHistory scrollElement={historyRef} />
