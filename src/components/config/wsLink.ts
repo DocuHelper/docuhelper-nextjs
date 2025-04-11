@@ -4,12 +4,12 @@ import { HttpLink, split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 const httpLink = new HttpLink({
-	uri: process.env['NEXT_PUBLIC_DOCUHELPER_API_URL'],
+	uri: process.env['NEXT_PUBLIC_DOCUHELPER_API_URL'] || '/graphql',
 });
 
 const wsLink = new GraphQLWsLink(
 	createClient({
-		url: `${process.env['NEXT_PUBLIC_DOCUHELPER_SUBSCRIPTION_URL']}`,
+		url: process.env['NEXT_PUBLIC_DOCUHELPER_SUBSCRIPTION_URL'] || '/subscriptions',
 	}),
 );
 
