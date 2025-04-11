@@ -16,6 +16,11 @@ export default function ChatInput() {
 			Alert.warning('문서를 선택해주세요');
 			return;
 		}
+
+		if (ask === '') {
+			return;
+		}
+
 		mutateFunction({
 			variables: {
 				query: {
