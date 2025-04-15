@@ -32,6 +32,16 @@ const chat = createSlice({
 
 			return state;
 		},
+		appendChatAnswerChunk: (state, action: PayloadAction<{ chat: string; chunk: string }>) => {
+			const index = state.chatHistory?.findIndex((chat) => chat.uuid === action.payload.chat);
+			if (index !== undefined && index !== -1 && state.chatHistory) {
+				if (state.chatHistory[index].result == null) {
+					state.chatHistory[index].result = '';
+				}
+				state.chatHistory[index].result += action.payload.chunk;
+			}
+			return state;
+		},
 
 		selectDocument: (state, action: PayloadAction<string>) => {
 			state.selectedDocument = action.payload;
@@ -44,5 +54,5 @@ const chat = createSlice({
 	},
 });
 
-export const { initChatStore, addChatHistory, selectDocument, updateViewBottom } = chat.actions;
+export const { initChatStore, addChatHistory, appendChatAnswerChunk, selectDocument, updateViewBottom } = chat.actions;
 export default chat.reducer;
