@@ -97,6 +97,7 @@ export type CounterResponse = {
 export type CreateDocumentRequestInput = {
   file: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
+  type: DocumentType;
 };
 
 export type CreateUploadUrlRequestInput = {
@@ -112,6 +113,7 @@ export type Document = BaseDomain & {
   name: Scalars['String']['output'];
   owner: Scalars['UUID']['output'];
   state: DocumentState;
+  type: DocumentType;
   updateDocumentState: Document;
   uuid?: Maybe<Scalars['UUID']['output']>;
 };
@@ -133,6 +135,11 @@ export enum DocumentState {
   Embedding = 'EMBEDDING',
   Parsing = 'PARSING',
   Reading = 'READING'
+}
+
+export enum DocumentType {
+  MultiColumn = 'MULTI_COLUMN',
+  SingleColumn = 'SINGLE_COLUMN'
 }
 
 export type Mutation = {
@@ -191,7 +198,7 @@ export type QueryFindChatArgs = {
 
 export type QueryFindChunkByEmbedValueArgs = {
   document: Scalars['UUID']['input'];
-  embed: Array<Scalars['Float']['input']>;
+  text: Scalars['String']['input'];
 };
 
 

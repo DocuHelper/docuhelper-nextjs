@@ -41,5 +41,7 @@ function getDocumentState(state: DocumentState) {
 			return '파싱중';
 		case DocumentState.Reading:
 			return '읽는중';
+		case DocumentState.Fail:
+			return '실패';
 	}
 }
