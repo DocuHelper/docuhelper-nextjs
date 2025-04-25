@@ -133,6 +133,7 @@ export type DocumentQueryRequestInput = {
 export enum DocumentState {
   Complete = 'COMPLETE',
   Embedding = 'EMBEDDING',
+  Fail = 'Fail',
   Parsing = 'PARSING',
   Reading = 'READING'
 }
