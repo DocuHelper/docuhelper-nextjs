@@ -138,8 +138,10 @@ export enum DocumentState {
 }
 
 export enum DocumentType {
-  MultiColumn = 'MULTI_COLUMN',
-  SingleColumn = 'SINGLE_COLUMN'
+  Html = 'HTML',
+  PdfMultiColumn = 'PDF_MULTI_COLUMN',
+  PdfSingleColumn = 'PDF_SINGLE_COLUMN',
+  Ppt = 'PPT'
 }
 
 export type Mutation = {

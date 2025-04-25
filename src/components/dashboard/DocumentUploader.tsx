@@ -77,10 +77,10 @@ function DocumentTypeSelectorPopup({
 								어떤 형태의 문서인가요?
 							</DialogTitle>
 							<div className="mt-4 flex gap-4">
-								<button onClick={() => onSelectType(DocumentType.SingleColumn)}>
+								<button onClick={() => onSelectType(DocumentType.PdfSingleColumn)}>
 									<SingleRowDocument />
 								</button>
-								<button onClick={() => onSelectType(DocumentType.MultiColumn)}>
+								<button onClick={() => onSelectType(DocumentType.PdfMultiColumn)}>
 									<MutiRowDocument />
 								</button>
 							</div>
