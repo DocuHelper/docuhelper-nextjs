@@ -24,6 +24,8 @@ export default function FileUploader({ uploadOnComplete, validateFileInfo, child
 		if (!file) return;
 
 		// 파일 정보 추출
+		const fileType = file.type;
+		console.log(fileType);
 		const fileName = file.name;
 		const fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1); // 확장자 추출
 		const fileSize = file.size;
