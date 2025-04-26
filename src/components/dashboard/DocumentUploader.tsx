@@ -7,28 +7,61 @@ import { CloudArrowUpIcon } from '@heroicons/react/16/solid';
 import { DocumentType, useCreateDocumentMutation } from '@/generated/graphql';
 import { Alert } from '@/components/common/Alert';
 
+const ALLOW_FILE_TYPE = {
+	[DocumentType.PdfMultiColumn]: ['pdf'],
+	[DocumentType.PdfSingleColumn]: ['pdf'],
+	[DocumentType.Ppt]: ['ppt', 'pptx'],
+	[DocumentType.Doc]: ['doc', 'docx'],
+	[DocumentType.Text]: ['md', 'txt'],
+};
+
 export default function DocumentUploader() {
 	const [documentCreateMutation] = useCreateDocumentMutation();
-	const [isPopupOpen, setPopupOpen] = useState(false);
+	const [isPDFPopupOpen, setPDFPopupOpen] = useState(false);
 	const [uploadedFile, setUploadedFile] = useState<{ fileName: string; fileUuid: string } | null>(null);
+
+	const showFileTypeErrMessage = () => {
+		Alert.warning(<p className="text-nowrap">해당 파일 형식은 아직 지원되지 않아요.</p>);
+	};
 
 	return (
 		<>
 			<FileUploader
 				validateFileInfo={(fileName, fileExtension) => {
-					if (fileExtension.toLowerCase() != 'pdf') {
-						Alert.warning(
-							<p className="text-nowrap">
-								다른 파일 형식은 아직 지원되지 않아요. PDF 파일을 업로드해주세요
-							</p>,
-						);
+					const lowerExtension = fileExtension.toLowerCase();
+					const allowedExtensions = Object.values(ALLOW_FILE_TYPE).flat();
+
+					if (!allowedExtensions.includes(lowerExtension)) {
+						showFileTypeErrMessage();
 						return false;
 					}
 					return true;
 				}}
 				uploadOnComplete={async (file) => {
 					setUploadedFile(file);
-					setPopupOpen(true);
+					const lowerExtension = file.extension.toLowerCase();
+					if (lowerExtension === 'pdf') {
+						setPDFPopupOpen(true);
+						return;
+					}
+					const matchedEntry = Object.entries(ALLOW_FILE_TYPE).find(([documentType, extensions]) =>
+						extensions.includes(lowerExtension),
+					);
+
+					if (matchedEntry) {
+						const [docType] = matchedEntry;
+						documentCreateMutation({
+							variables: {
+								request: {
+									name: file.fileName,
+									file: file.fileUuid,
+									type: docType as DocumentType,
+								},
+							},
+						});
+					} else {
+						showFileTypeErrMessage();
+					}
 				}}
 			>
 				<div className="flex h-full w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-500 p-3">
@@ -37,9 +70,9 @@ export default function DocumentUploader() {
 					<p>문서 업로드</p>
 				</div>
 			</FileUploader>
-			{isPopupOpen && uploadedFile && (
-				<DocumentTypeSelectorPopup
-					onClose={() => setPopupOpen(false)}
+			{isPDFPopupOpen && uploadedFile && (
+				<PDFTypeSelectorPopup
+					onClose={() => setPDFPopupOpen(false)}
 					onSelectType={(type) => {
 						documentCreateMutation({
 							variables: {
@@ -50,7 +83,7 @@ export default function DocumentUploader() {
 								},
 							},
 						});
-						setPopupOpen(false);
+						setPDFPopupOpen(false);
 						setUploadedFile(null);
 					}}
 				/>
@@ -59,7 +92,7 @@ export default function DocumentUploader() {
 	);
 }
 
-function DocumentTypeSelectorPopup({
+function PDFTypeSelectorPopup({
 	onClose,
 	onSelectType,
 }: {

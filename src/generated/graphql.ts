@@ -133,15 +133,18 @@ export type DocumentQueryRequestInput = {
 export enum DocumentState {
   Complete = 'COMPLETE',
   Embedding = 'EMBEDDING',
+  Fail = 'Fail',
   Parsing = 'PARSING',
   Reading = 'READING'
 }
 
 export enum DocumentType {
+  Doc = 'DOC',
   Html = 'HTML',
   PdfMultiColumn = 'PDF_MULTI_COLUMN',
   PdfSingleColumn = 'PDF_SINGLE_COLUMN',
-  Ppt = 'PPT'
+  Ppt = 'PPT',
+  Text = 'TEXT'
 }
 
 export type Mutation = {
