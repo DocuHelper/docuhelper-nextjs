@@ -8,6 +8,10 @@ mutation CreateDocument($request: CreateDocumentRequestInput!) {
     }
 }
 
+mutation DeleteDocument($request: UUID!) {
+    deleteDocument(uuid: $request)
+}
+
 query FindDocument($query: DocumentQueryRequestInput!) {
     findDocument(query: $query) {
         uuid

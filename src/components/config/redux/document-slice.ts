@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Document } from '@/generated/graphql';
 
 interface DocumentState {
-	document: [Document] | undefined;
+	document: Document[] | undefined;
 }
 
 const initialState: DocumentState = {
@@ -28,8 +28,14 @@ const document = createSlice({
 
 			return state;
 		},
+		deleteDocument(state, action: PayloadAction<{ uuid: String }>) {
+			if (state.document) {
+				state.document = state.document.filter((doc) => doc.uuid !== action.payload.uuid);
+			}
+			return state;
+		},
 	},
 });
 
-export const { initDocumentStore, updateDocument } = document.actions;
+export const { initDocumentStore, updateDocument, deleteDocument } = document.actions;
 export default document.reducer;

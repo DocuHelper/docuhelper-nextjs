@@ -150,6 +150,7 @@ export enum DocumentType {
 export type Mutation = {
   __typename?: 'Mutation';
   createDocument: Document;
+  deleteDocument: Scalars['Boolean']['output'];
   send: Chat;
   uploadFileUrl: UploadUrl;
 };
@@ -157,6 +158,11 @@ export type Mutation = {
 
 export type MutationCreateDocumentArgs = {
   request: CreateDocumentRequestInput;
+};
+
+
+export type MutationDeleteDocumentArgs = {
+  uuid: Scalars['UUID']['input'];
 };
 
 
@@ -182,7 +188,10 @@ export type Query = {
   findChunkByEmbedValue: Array<ChunkWithSimilarity>;
   findDocument: Array<Document>;
   loginState?: Maybe<User>;
-  test: Array<TestResponse>;
+  test: Scalars['String']['output'];
+  testDataLoader: Array<TestResponse>;
+  testMono: Scalars['Int']['output'];
+  testSuspend: Scalars['String']['output'];
 };
 
 
@@ -212,7 +221,7 @@ export type QueryFindDocumentArgs = {
 };
 
 
-export type QueryTestArgs = {
+export type QueryTestDataLoaderArgs = {
   request: TestRequestInput;
 };
 
@@ -246,6 +255,10 @@ export type TestResponse = {
   value: Scalars['Int']['output'];
 };
 
+export enum TokenHistoryType {
+  Chat = 'CHAT'
+}
+
 export type UploadUrl = {
   __typename?: 'UploadUrl';
   url: Scalars['URL']['output'];
@@ -255,7 +268,39 @@ export type UploadUrl = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
+  role: UserRole;
   uuid: Scalars['UUID']['output'];
+};
+
+export enum UserRole {
+  Basic = 'BASIC',
+  Enterprise = 'ENTERPRISE',
+  Free = 'FREE',
+  Premium = 'PREMIUM'
+}
+
+export type UserToken = BaseDomain & {
+  __typename?: 'UserToken';
+  availableToken: Scalars['Int']['output'];
+  createDt: Scalars['LocalDateTime']['output'];
+  limitToken: Scalars['Int']['output'];
+  updateToken: UserToken;
+  userUUID: Scalars['UUID']['output'];
+  uuid?: Maybe<Scalars['UUID']['output']>;
+};
+
+
+export type UserTokenUpdateTokenArgs = {
+  diff: Scalars['Int']['input'];
+};
+
+export type UserTokenHistory = BaseDomain & {
+  __typename?: 'UserTokenHistory';
+  createDt: Scalars['LocalDateTime']['output'];
+  diff: Scalars['Int']['output'];
+  type: TokenHistoryType;
+  userUuid: Scalars['UUID']['output'];
+  uuid?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type SendChatMutationVariables = Exact<{
@@ -285,6 +330,13 @@ export type CreateDocumentMutationVariables = Exact<{
 
 
 export type CreateDocumentMutation = { __typename?: 'Mutation', createDocument: { __typename?: 'Document', uuid?: any | null, name: string, state: DocumentState, owner: any, file: any } };
+
+export type DeleteDocumentMutationVariables = Exact<{
+  request: Scalars['UUID']['input'];
+}>;
+
+
+export type DeleteDocumentMutation = { __typename?: 'Mutation', deleteDocument: boolean };
 
 export type FindDocumentQueryVariables = Exact<{
   query: DocumentQueryRequestInput;
@@ -476,6 +528,37 @@ export function useCreateDocumentMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateDocumentMutationHookResult = ReturnType<typeof useCreateDocumentMutation>;
 export type CreateDocumentMutationResult = Apollo.MutationResult<CreateDocumentMutation>;
 export type CreateDocumentMutationOptions = Apollo.BaseMutationOptions<CreateDocumentMutation, CreateDocumentMutationVariables>;
+export const DeleteDocumentDocument = gql`
+    mutation DeleteDocument($request: UUID!) {
+  deleteDocument(uuid: $request)
+}
+    `;
+export type DeleteDocumentMutationFn = Apollo.MutationFunction<DeleteDocumentMutation, DeleteDocumentMutationVariables>;
+
+/**
+ * __useDeleteDocumentMutation__
+ *
+ * To run a mutation, you first call `useDeleteDocumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDocumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDocumentMutation, { data, loading, error }] = useDeleteDocumentMutation({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useDeleteDocumentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDocumentMutation, DeleteDocumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDocumentMutation, DeleteDocumentMutationVariables>(DeleteDocumentDocument, options);
+      }
+export type DeleteDocumentMutationHookResult = ReturnType<typeof useDeleteDocumentMutation>;
+export type DeleteDocumentMutationResult = Apollo.MutationResult<DeleteDocumentMutation>;
+export type DeleteDocumentMutationOptions = Apollo.BaseMutationOptions<DeleteDocumentMutation, DeleteDocumentMutationVariables>;
 export const FindDocumentDocument = gql`
     query FindDocument($query: DocumentQueryRequestInput!) {
   findDocument(query: $query) {
