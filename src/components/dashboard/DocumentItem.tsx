@@ -1,14 +1,15 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/components/config/redux/hooks';
-import { Document, DocumentState } from '@/generated/graphql';
+import { Document, DocumentState, useDeleteDocumentMutation } from '@/generated/graphql';
 import { selectDocument } from '@/components/config/redux/chat-slice';
-import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
+import { ChatBubbleOvalLeftIcon } from '@heroicons/react/16/solid';
 import { Alert } from '@/components/common/Alert';
 
 export default function DocumentItem({ uuid, name, state }: Document) {
 	const dispatch = useAppDispatch();
 	const selectedDocument = useAppSelector((store) => store.chat.selectedDocument);
+	const [deleteDocument] = useDeleteDocumentMutation();
 	return (
 		<li
 			onClick={() => {
@@ -18,19 +19,27 @@ export default function DocumentItem({ uuid, name, state }: Document) {
 				}
 				dispatch(selectDocument(uuid));
 			}}
-			className={`relative flex cursor-pointer justify-between rounded-xl p-4 select-none last:border-b-0 ${selectedDocument === uuid && 'bg-white'} ${selectedDocument === uuid || 'hover:bg-gray-300'} transition-all`}
+			className={`group relative ml-4 flex cursor-pointer justify-between rounded-xl p-4 select-none last:border-b-0 ${selectedDocument === uuid && 'bg-white'} ${selectedDocument === uuid || 'hover:bg-gray-300'} transition-all`}
 		>
 			<p className="truncate">{name}</p>
 			<p className="ml-4 min-w-fit">{getDocumentState(state)}</p>
-
 			<i
-				className={`absolute -top-2 -right-2 aspect-square h-full w-6 ${selectedDocument === uuid ? 'block' : 'hidden'} `}
+				className="absolute -top-2 -left-2 flex aspect-square w-5 items-center rounded-full bg-red-500 px-1 opacity-0 transition-all group-hover:opacity-100"
+				onClick={(event) => {
+					deleteDocument({ variables: { request: uuid } });
+				}}
 			>
-				<ChatBubbleOvalLeftIcon className="text-gray-500" />
+				<i className="block h-0.75 grow rounded-full bg-white" />
+			</i>
+			<i
+				className={`absolute -top-2 -right-2 aspect-square w-6 rounded-full bg-gray-400 p-1 ${selectedDocument === uuid ? 'block' : 'hidden'} `}
+			>
+				<ChatBubbleOvalLeftIcon className="text-white" />
 			</i>
 		</li>
 	);
 }
+
 function getDocumentState(state: DocumentState) {
 	switch (state) {
 		case DocumentState.Complete:

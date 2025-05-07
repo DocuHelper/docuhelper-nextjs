@@ -4,7 +4,7 @@ import { useSubNoticeSubscription } from '@/generated/graphql';
 import { addChatHistory, appendChatAnswerChunk } from '@/components/config/redux/chat-slice';
 import { useAppDispatch } from '@/components/config/redux/hooks';
 import { useEffect } from 'react';
-import { updateDocument } from '@/components/config/redux/document-slice';
+import { deleteDocument, updateDocument } from '@/components/config/redux/document-slice';
 
 export default function UserNotice() {
 	const dispatch = useAppDispatch();
@@ -24,6 +24,8 @@ export default function UserNotice() {
 				case 'Document':
 					dispatch(updateDocument(newNotice));
 					return;
+				case 'DocumentDelete':
+					dispatch(deleteDocument(newNotice));
 			}
 		}
 	}, [data, loading]);
@@ -31,4 +33,4 @@ export default function UserNotice() {
 	return <></>;
 }
 
-type NoticeType = 'Chat' | 'Document' | 'ChatAnswerChunk' | undefined;
+type NoticeType = 'Chat' | 'Document' | 'ChatAnswerChunk' | 'DocumentDelete' | undefined;
