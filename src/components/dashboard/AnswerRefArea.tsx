@@ -40,7 +40,7 @@ export default function AnswerRefArea() {
 	return (
 		<>
 			<div
-				className="h-full min-h-screen w-[20] min-w-[20] cursor-alias bg-gray-200 bg-none"
+				className="h-full min-h-screen w-[20] min-w-[20] cursor-alias bg-gray-200"
 				draggable={true}
 				onDragStart={onDragStart}
 				onDrag={onDrag}
